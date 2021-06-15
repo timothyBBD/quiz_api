@@ -4,19 +4,135 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using QuizAPI.DB;
+using QuizAPI.Models;
 
 namespace QuizAPI.Controllers
 {
-    [Route("api/[controller]")]
+    /*public class QuestionsFactory
+    {
+        public QuestionType MakeQuestionType(string questionType)
+        {
+            QuestionType type = null;
+
+            if (questionType.Equals("MCQ"))
+            {
+                return new MCQ();
+            }
+            if (questionType.Equals("TrueFalse"))
+            {
+                return new TrueFalse();
+            }
+            else
+            {
+                return type;
+            }
+        }
+    }
+
+    public abstract class QuestionType
+    {
+        private string Type;
+        
+       /* public void setQustionType(string questionType)
+        {
+            Type = questionType;
+        }*/
+
+       /* public MCQ getType()
+        {
+            return new MCQ();
+        }
+        
+        
+    }
+
+    public interface Quest
+    {
+        public string getQuestionType(string question);
+    }
+
+    public class MCQ : QuestionType
+    {
+        public MCQ()
+        {
+            //setQustionType("Multiple Choice Question");
+        }
+
+        public ActionResult CreateMCQ(int number)
+        {
+            List<Question> mcq = null;
+            using (QuizContext db = new QuizContext())
+            {
+                //Fetch from DB
+            }
+
+            //return mcq json result;
+            return new AcceptedResult();
+        }
+        
+    }
+
+    public class TrueFalse : QuestionType
+    {
+        
+    }
+    */
+       public interface IMCQ {}
+       public interface ITrueFalse {}
+       
+       public interface IQuestionFactory
+       {
+           public IMCQ CreateMcq();
+           public ITrueFalse CreateTrueFalse();
+       }
+
+       public class EasyQuestionsFactory : IQuestionFactory
+       {
+           public IMCQ CreateMcq() {}
+           public ITrueFalse CreateTrueFalse() {}
+       }
+       
+       public class HardQuestionsFactory : IQuestionFactory
+       {
+           public IMCQ CreateMcq() {}
+           public ITrueFalse CreateTrueFalse() {}
+       }
+
+       public class EasyMcq : EasyQuestionsFactory, IMCQ
+       {
+           
+       }
+       
+       public class EasyTrueFalse : EasyQuestionsFactory, ITrueFalse
+       {
+           
+       }
+       
+       public class HardMcq : HardQuestionsFactory, IMCQ
+       {
+           
+       }
+       
+       public class HardTrueFalse : HardQuestionsFactory, ITrueFalse
+       {
+           
+       }
+       
+
+       [Route("api/[controller]")]
     [ApiController]
     public class QuizController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult GetQuiz(string quizType)
+        [HttpGet("{quizType}")]
+        /*public ActionResult<QuestionType> GetQuiz(string quizType)
         {
-            return Ok();
-        }
-
+            QuestionsFactory questionsFactory = new QuestionsFactory();
+            var questionType = questionsFactory.MakeQuestionType(quizType);
+            return questionType;
+        }*/
+        
         [HttpPost]
         public ActionResult PostQuestion(string question, string category, string answer, List<string>choices)
         {

@@ -10,8 +10,7 @@ namespace QuizAPI.Models
         public int QuestionID { get; set; }
         public string QuestionText { get; set; }
         public string QuestionType { get; set; }
-        public string Answer { get; set; }
-        public ICollection<Choice> Choices { get; set; }
+        public int Answer { get; set; }
         public int CategoryID { get; set; }
     }
 
@@ -23,9 +22,9 @@ namespace QuizAPI.Models
 
     public class Answer
     {
+        public int AnswerID { get; set; }
         public int QuestionID { get; set; }
         public string QuestionText { get; set; }
-        public bool IsCorrect { get; set; }
 
     }
 
