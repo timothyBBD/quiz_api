@@ -34,7 +34,7 @@ namespace QuizAPI.Models
 
     public class Quiz
     {
-        public int QuizID { get; set; }
+        public Guid QuizID { get; set; }
         public string QuizType { get; set; } //MCQ OR True/False
         public string CategoryID { get; set; }
         public string Name { get; set; }
