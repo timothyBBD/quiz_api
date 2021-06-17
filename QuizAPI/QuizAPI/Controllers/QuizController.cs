@@ -79,7 +79,7 @@ namespace QuizAPI.Controllers
         
     }
     */
-       public interface IMCQ {}
+      /* public interface IMCQ {}
        public interface ITrueFalse {}
        
        public interface IQuestionFactory
@@ -119,7 +119,7 @@ namespace QuizAPI.Controllers
        {
            
        }
-       
+       */
 
        [Route("api/[controller]")]
     [ApiController]
@@ -132,7 +132,21 @@ namespace QuizAPI.Controllers
             var questionType = questionsFactory.MakeQuestionType(quizType);
             return questionType;
         }*/
-        
+
+        [HttpGet("/test/{id}")]
+        public ActionResult<Question> Test(int id)
+        {
+            QuizContext quizContext;
+            Question question;
+
+            using (quizContext = new QuizContext())
+            {
+                question = quizContext.Questions.Where(e => e.QuestionID == id).FirstOrDefault();
+                Console.WriteLine(question);
+                return question;
+            }
+            
+        }
         [HttpPost]
         public ActionResult PostQuestion(string question, string category, string answer, List<string>choices)
         {
