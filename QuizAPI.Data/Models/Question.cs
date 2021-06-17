@@ -10,6 +10,5 @@ namespace QuizAPI.Data.Models
     {
         public Category Category { get; set; }
         public string QuestionText { get; set; }
-        public IEnumerable<Answer> Answers { get; set; }
     }
 }

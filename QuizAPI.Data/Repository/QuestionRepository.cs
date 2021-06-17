@@ -16,10 +16,17 @@ namespace QuizAPI.Data.Repository
         public override Question GetById(int id)
         {
             return _quizContext.Questions
-                .Include(q => q.Answers)
                 .Include(q => q.Category)
                 .FirstOrDefault(q => q.Id == id);
         }
+
+        public override IEnumerable<Question> List() 
+        {
+            return _quizContext.Questions
+                .Include(q => q.Category)
+                .AsEnumerable();
+        }
+
 
     }
 }

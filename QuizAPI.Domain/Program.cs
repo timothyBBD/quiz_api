@@ -16,9 +16,7 @@ namespace QuizAPI.Domain
     {
         public static void Main(string[] args)
         {
-            QuizContext dbContext = new QuizContext();
-            IRepository < Question > questionRepo = new QuestionRepository(dbContext);
-            var question = questionRepo.GetById(1);
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

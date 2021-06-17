@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using QuizAPI.Data;
+using QuizAPI.Data.Models;
+using QuizAPI.Data.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +31,10 @@ namespace QuizAPI.Domain
         {
 
             services.AddControllers();
+            services.AddSingleton<QuizContext>();
+            services.AddSingleton<IRepository<Question>, QuestionRepository>();
+            services.AddSingleton<IRepository<Answer>, BaseRepository<Answer>>();
+            services.AddSingleton<IRepository<Category>, BaseRepository<Category>>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "QuizAPI.Domain", Version = "v1" });
