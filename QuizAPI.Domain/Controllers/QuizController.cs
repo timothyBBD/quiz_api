@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using QuizAPI.quizData;
 using QuizAPI.Data.Repository;
 using QuizAPI.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizAPI.Controllers
 {
@@ -40,9 +41,11 @@ namespace QuizAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("questions")]
         public ActionResult GetQuestions()
         {
+
             List<Question> questions = questionRepository.List().ToList();
             return Ok(questions);
         }

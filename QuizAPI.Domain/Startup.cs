@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using QuizAPI.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 using QuizAPI.Data.Models;
 using QuizAPI.Data.Repository;
 using System;
@@ -31,6 +33,18 @@ namespace QuizAPI.Domain
         {
 
             services.AddControllers();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://dev-blackbeard.us.auth0.com/";
+                options.Audience = "http://localhost:5001/";
+            });
+
+
             services.AddSingleton<QuizContext>();
             services.AddSingleton<IRepository<Question>, QuestionRepository>();
             services.AddSingleton<IRepository<Answer>, BaseRepository<Answer>>();
@@ -38,7 +52,29 @@ namespace QuizAPI.Domain
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "QuizAPI.Domain", Version = "v1" });
+
+             
+                var securitySchema = new OpenApiSecurityScheme
+{
+    Description = "Using the authorization header with the Bearer scheme.",
+    Name = "Authorization",
+    In = ParameterLocation.Header,
+    Type = SecuritySchemeType.Http,
+    Scheme = "bearer",
+    Reference = new OpenApiReference
+    {
+        Type = ReferenceType.SecurityScheme,
+        Id = "Bearer"
+    }
+};
+                c.AddSecurityDefinition("Bearer", securitySchema);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                      {securitySchema, new[] {"Bearer"}}
+                 });
+
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
